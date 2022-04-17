@@ -309,8 +309,17 @@ body {
       .form-login-body .login-desk .loginform .login-det .btn-danger {
         width: 100%;
         border-radius: 0px;
-        background-color: #fa607e;
-        border-radius: 50px; }
+        background-color: #e1b713;
+        border-radius: 50px;
+        border-color: #e1b713;
+       }
+       .btn-danger:not(:disabled):not(.disabled).active:focus, .btn-danger:not(:disabled):not(.disabled):active:focus, .show>.btn-danger.dropdown-toggle:focus{
+        box-shadow: 0 0 0 0.2rem #e1b713; 
+       }
+
+      .btn-danger.focus, .btn-danger:focus {
+        box-shadow: 0 0 0 0.2rem #e1b713;
+      }
       .form-login-body .login-desk .loginform .forget {
         text-align: right; }
       .form-login-body .login-desk .loginform .social-link ul {

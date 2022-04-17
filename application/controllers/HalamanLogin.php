@@ -32,8 +32,9 @@ class HalamanLogin extends CI_Controller {
 		$this->form_validation->set_rules('nama', 'Nama Pengguna','trim|required|min_length[3]|max_length[100]');
 		$this->form_validation->set_rules('password', 'Kata Kunci','trim|required');
 		if ($this->form_validation->run() == FALSE){
-			echo json_encode(array('st'=>0,'msg'=>'Tidak Berhasil:<br/>'.validation_errors()));
-			return;
+			$this->load->view('login/index');
+			// echo json_encode(array('st'=>0,'msg'=>'Tidak Berhasil:<br/>'.validation_errors()));
+			// return;
 		}
 
 		$nama= $this->input->post('nama');
@@ -41,7 +42,6 @@ class HalamanLogin extends CI_Controller {
 
 		$queryPengguna = $this->model->get_seleksi_pengguna($nama);
 		$cekPengguna = $queryPengguna->num_rows();
-		//die(var_dump($cekPengguna));
 		if($cekPengguna==1){
 			$code_activation = $queryPengguna->row()->code_activation;
 			$passwordEnkrip = $this->arr2md5(array($code_activation,$password));
