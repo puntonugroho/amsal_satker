@@ -13,6 +13,7 @@ class HalamanSuratMasuk extends CI_Controller
 			redirect('keluar');
 		}
 		$this->load->model('ModelSuratMasuk', 'model');
+		$this->load->model('ModelPengguna', 'model_pengguna');
 		$this->load->helper('telebot_helper');
 		$queryCek = $this->model->get_seleksi('sys_user_online', 'id', $this->session->userdata('login_id'));
 		if (($queryCek->row()->host_address != $this->input->ip_address()) && ($queryCek->row()->userid != $this->session->userdata('userid')) && ($queryCek->row()->user_agent != $this->input->user_agent())) {
@@ -638,9 +639,15 @@ class HalamanSuratMasuk extends CI_Controller
 		$tanggal_pelaksanaan = $this->tanggalhelper->convertToMysqlDate($this->input->post('tanggal_pelaksanaan'));
 		$jenis_pelaksanaan_id = $this->input->post('jenis_pelaksanaan');
 
+		$queryUser = $this->model_pengguna->get_users($kepada_userid);
+		foreach ($queryUser as $row) {
+			$username = $row->username;
+			$password = $this->encrypt->decode(base64_decode($row->password));
+		}
+
 		$message_text = "" . $namaJabatan . " MS Suka Makmue Anda Menerima Surat Nomor : "
 			. $nomor_surat . " tanggal " . $tanggal_surat . " dari " . $pengirim .
-			". Mohon agar segera ditindaklanjuti, Terima Kasih.";
+			". Mohon agar segera ditindaklanjuti, Terima Kasih. Anda Dapat menindaklanjuti dan melihat isi surat pada aplikasi SISUDI dengan mengakses ke 192.168.100.254/sisudi";
 
 		if ($jenis_pelaksanaan_id == '10') {
 			$jenis_pelaksanaan = "Disposisi";
@@ -745,14 +752,20 @@ class HalamanSuratMasuk extends CI_Controller
 		$tanggal_surat = $querydetail->row()->tanggal_surat;
 		$telegram_id = $this->model->get_seleksi('pegawai', 'jabatan_id', $pegawai_tujuan_group_id)->row()->chatid;
 
+		$queryUser = $this->model_pengguna->get_users($kepada_userid);
+		foreach ($queryUser as $row) {
+			$username = $row->username;
+			$password = $this->encrypt->decode(base64_decode($row->password));
+		}
+
 		if ($jenis_pelaksanaan_id == '10') {
 			$message_text = "Sdr. " . $pegawai_tujuan . " Anda Menerima Disposisi Surat Nomor : "
 				. $nomor_surat . " tanggal " . $tanggal_surat . " dari " . $pegawai_group . " " . $pegawai_nama .
-				". Mohon agar segera ditindaklanjuti, Terima Kasih.";
+				". Mohon agar segera ditindaklanjuti, Terima Kasih. Anda Dapat menindaklanjuti dan melihat isi surat pada aplikasi SISUDI dengan mengakses ke 192.168.100.254/sisudi";
 		} else if ($jenis_pelaksanaan_id == '30') {
 			$message_text = "Sdr. " . $pegawai_tujuan . " Anda Menerima Terusan Surat Nomor : "
 				. $nomor_surat . " tanggal " . $tanggal_surat . " dari " . $pegawai_group . " " . $pegawai_nama .
-				". Mohon agar segera ditindaklanjuti, Terima Kasih.";
+				". Mohon agar segera ditindaklanjuti, Terima Kasih. Anda Dapat menindaklanjuti dan melihat isi surat pada aplikasi SISUDI dengan mengakses ke 192.168.100.254/sisudi";
 		}
 
 		if ($querySimpan == 1) {
@@ -917,9 +930,18 @@ class HalamanSuratMasuk extends CI_Controller
 			$querySimpan = $this->model->pembaharuan_data('register_surat', $data, 'register_id', $register_id);
 		}
 		// perihal " . $perihal
+
+		$queryUser = $this->model_pengguna->get_users_from_jabatan($jabatan_id);
+		//die(var_dump($queryUser->result()));
+		foreach ($queryUser->result() as $row) {
+			$username = $row->username;
+			$password = $this->encrypt->decode(base64_decode($row->password));
+		}
+
+
 		$message_text = "" . $namaJabatan . " MS Suka Makmue Anda Menerima Surat Nomor : "
 			. $nomor_surat . " tanggal " . $tanggal_surat . " dari " . $pengirim .
-			" Mengenai ". $perihal .". Mohon agar segera ditindaklanjuti, Terima Kasih.";
+			" Mengenai ". $perihal .". Mohon agar segera ditindaklanjuti, Terima Kasih. Anda Dapat menindaklanjuti dan melihat isi surat pada aplikasi SISUDI dengan mengakses ke 192.168.100.254/sisudi";
 
 		$telegram_id = $this->model->get_seleksi('pegawai', 'jabatan_id', $jabatan_id)->row()->chatid;
 		$ress = kirimNotifikasiTelegram($telegram_id, $message_text);

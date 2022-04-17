@@ -21,6 +21,27 @@ class ModelPengguna extends CI_Model {
 		}
 	}
 
+	public function get_users($userid)
+	{
+		try {
+			return $this->db->get_where($this->table,array('userid'=>$userid));
+		} catch (Exception $e) {
+			return 0;
+		}
+	}
+
+	public function get_users_from_jabatan($jabatan_id)
+	{
+		try {
+			//return $this->db->get_where($table,array('groupid'=>$jabatan_id));
+			// die(var_dump($jabatan_id));
+			$this->db->where('group_id',$jabatan_id);
+			return $this->db->get($this->table);
+		} catch (Exception $e) {
+			return 0;
+		}
+	}
+
 	public function hapus_data($nama_tabel,$kolom_seleksi,$seleksi){
 		try {
 			$this->db->where($kolom_seleksi,$seleksi);

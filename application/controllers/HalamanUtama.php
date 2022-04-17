@@ -15,6 +15,7 @@ class HalamanUtama extends CI_Controller
 		}
 		$this->load->model('ModelUtama', 'model');
 		$this->load->model('ModelSuratKeluar', 'model_suratkeluar');
+		$this->load->model('ModelPengguna', 'model_pengguna');
 		$this->load->helper('telebot_helper');
 		$queryCek = $this->model->get_seleksi('sys_user_online', 'id', $this->session->userdata('login_id'));
 		if (($queryCek->row()->host_address != $this->input->ip_address()) && ($queryCek->row()->userid != $this->session->userdata('userid')) && ($queryCek->row()->user_agent != $this->input->user_agent())) {
@@ -341,16 +342,20 @@ class HalamanUtama extends CI_Controller
 
 		//simpan data
 		$querySimpan = $this->model->simpan_data('register_pelaksanaan', $data);
-		
+		$queryUser = $this->model_pengguna->get_users($kepada_userid);
+		foreach ($queryUser as $row) {
+			$username = $row->username;
+			$password = $this->encrypt->decode(base64_decode($row->password));
+		}
 		//isi pesan telegram
 		if ($jenis_pelaksanaan_id == '10') {
 			$message_text = "Sdr. " . $kepada_fullname . " Anda Menerima Disposisi Surat Nomor : "
 				. $nomor_surat . " tanggal " . $tanggal_surat . " dari " . $dari_jabatan . " " . $dari_fullname .
-				". Mohon agar segera ditindaklanjuti, Terima Kasih.";
+				". Mohon agar segera ditindaklanjuti, Terima Kasih. Anda Dapat menindaklanjuti dan melihat isi surat pada aplikasi SISUDI dengan mengakses ke 192.168.100.254/sisudi";
 		} else if ($jenis_pelaksanaan_id == '30') {
 			$message_text = "Sdr. " . $kepada_fullname . " Anda Menerima Terusan Surat Nomor : "
 				. $nomor_surat . " tanggal " . $tanggal_surat . " dari " . $dari_jabatan . " " . $dari_fullname .
-				". Mohon agar segera ditindaklanjuti, Terima Kasih.";
+				". Mohon agar segera ditindaklanjuti, Terima Kasih. Anda Dapat menindaklanjuti dan melihat isi surat pada aplikasi SISUDI dengan mengakses ke 192.168.100.254/sisudi";
 		}
 
 		//kirim pesan telegram
