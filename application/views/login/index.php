@@ -33,7 +33,7 @@
             <div class="detailsh">
               <img class="help" src="<?php echo base_url(); ?>images/help.png" alt="">
               <h3 style="color: #0a0a0a;">Mahkamah Syar'iyah Suka Makmue</h3>
-              <p>Developed by IT Team Mahkamah Syar'iyah Aceh</p>
+              <p>Sistem Persuratan Digital</p>
             </div>
           </div>
           <div class="col-md-5 loginform">
@@ -49,8 +49,9 @@
                         <i class="far fa-user"></i>
                       </span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Masukkan Username" name="nama" aria-label="Username" aria-describedby="basic-addon1">
-                </div>
+                    <input type="text" class="form-control" required placeholder="Enter Username" name="nama" value="<?php echo set_value('nama'); ?>"  aria-label="Username" aria-describedby="basic-addon1">                
+                  </div>
+                  <?php echo form_error('nama'); ?>
               </div>
               <div class="form-row">
                 <label for="">Password</label>
@@ -60,35 +61,27 @@
                       <i class="fas fa-lock"></i>
                     </span>
                   </div>
-                  <input type="password" class="form-control" placeholder="Masukkan Password" name="password" aria-label="Username" aria-describedby="basic-addon1">
+                  <input type="password" class="form-control" required placeholder="Enter Password" name="password" value="<?php echo set_value('password'); ?>"  aria-label="Username" aria-describedby="basic-addon1">
                 </div>
+                <?php echo form_error('password'); ?> 
               </div>
 
               <p class="forget"><a href=""></a></p>
               <div>
-              <button class="btn btn-sm btn-danger">Login</button>
+              <button class="btn btn-md btn-danger">Login</button>
               </div>
 
               <div class="social-link">
                 <ul class="socil-icon">
                   <li>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
                   </li>
                   <li>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
                   </li>
                   <li>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
                   </li>
-                  <!-- <li>
-                                                <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fab fa-dribbble"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="fab fa-behance"></i></a>
-                                            </li> -->
                 </ul>
               </div>
 
@@ -107,10 +100,45 @@
   <script src="<?php echo base_url(); ?>assets/js/settings.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/todolist.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/jquery.cookie.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/gritter/js/jquery.gritter.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/sweetalert.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/profile-settings.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/moment.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/formpickers.js"></script>
+</body>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(document).on('show.bs.modal', '.modal', function(event) {
+			var zIndex = 1040 + (10 * $('.modal:visible').length);
+			$(this).css('z-index', zIndex);
+			setTimeout(function() {
+				$('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+			}, 0);
+		});
+	});
+
+	function pesan($judul, $pesan, $gambar) {
+		$.gritter.add({
+			title: $judul,
+			text: $pesan,
+			image: $gambar,
+			sticky: true,
+			time: '',
+			class_name: 'my-sticky-class'
+		});
+		return false;
+	}
+</script>
+
+<!-- <script>
+		$(document).ready(function() {
+			App.init();
+            TableManageDefault.init();
+            FormPlugins.init();
+		});
+	</script> -->
 </body>
 
 </html>

@@ -5,27 +5,27 @@
 						<div class="col-sm-12 flex-column d-flex stretch-card">
 							<div class="row">
 								<div class="col-lg-3 d-flex grid-margin stretch-card">
-									<div class="card sale-diffrence-border">
+									<div class="card grad1 sale-diffrence-border">
 										<div class="card-body">
-											<i class="mdi mdi-download icon-lg text-primary" style="float:right"></i>
-											<h2 class="text-dark mb-2 font-weight-bold"><?php echo $jumlahSuratMasuk; ?></h2>
-											<h4 class="card-title mb-2">SURAT MASUK</h4>
-											<small class="text-muted">Tahun <?php echo $tahun; ?></small>
+											<i class="mdi mdi-download icon-lg" style="color:white;float:right;"></i>
+											<h2 class="mb-2 font-weight-bold" style="color:white;"><?php echo $jumlahSuratMasuk; ?></h2>
+											<h4 class="card-title mb-2"style="color:white;" >SURAT MASUK</h4>
+											<small style="color:white;">Tahun <?php echo $tahun; ?></small>
 										</div>
 									</div>
 								</div>
 								<div class="col-lg-3 d-flex grid-margin stretch-card">
-									<div class="card sale-visit-statistics-border">
+									<div class="card grad2 sale-visit-statistics-border">
 										<div class="card-body">
-											<i class=" mdi mdi-upload icon-lg text-info" style="float:right"></i>
-											<h2 class="text-dark mb-2 font-weight-bold"><?php echo $jumlahSuratKeluar; ?></h2>
-											<h4 class="card-title mb-2">SURAT KELUAR</h4>
-											<small class="text-muted">Tahun <?php echo $tahun; ?></small>
+											<i class=" mdi mdi-upload icon-lg" style="color:white;float:right;"></i>
+											<h2 class="mb-2 font-weight-bold" style="color:white;"><?php echo $jumlahSuratKeluar; ?></h2>
+											<h4 class="card-title mb-2" style="color:white;">SURAT KELUAR</h4>
+											<small style="color:white;">Tahun <?php echo $tahun; ?></small>
 										</div>
 									</div>
 								</div>
 								<div class="col-lg-3 d-flex grid-margin stretch-card">
-									<div class="card" style="background-color: #4b56c0;">
+									<div class="card grad3">
 										<div class="card-body text-white">
 											<h3 class="font-weight-bold mb-3" id="nilai_disposisi">%</h3>
 											<div class="progress mb-3">
@@ -36,7 +36,7 @@
 									</div>
 								</div>
 								<div class="col-lg-3 d-flex grid-margin stretch-card">
-									<div class="card" style="background-color: #4b56c0;">
+									<div class="card grad4">
 										<div class="card-body text-white">
 											<h3 class="font-weight-bold mb-3" id="nilai_pengiriman">%</h3>
 											<div class="progress mb-3">
