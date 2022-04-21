@@ -83,7 +83,11 @@ class HalamanUtama extends CI_Controller
 					//$query_pelaksanaan = $this->model->get_seleksi('v_suratmasuk','tujuan_disposisi_id', $pegawai_id)->num_rows();
 					// $queryJumlahSurat = $this->model->get_seluruh_surat_disposisi_2($queryPegawai->row()->group_id,$queryPegawai->row()->group_name)->num_rows();
 					$queryDilaksanakan = $this->model->get_seluruh_surat_disposisi_sudah_dilaksanakan($queryPegawai->row()->group_id,$queryPegawai->row()->group_name)->num_rows();
-					$percentage = ($queryDilaksanakan/$queryJumlahSurat)*100;
+					if($queryDilaksanakan==0){
+						$percentage = 100;	
+					} else {
+						$percentage = ($queryDilaksanakan/$queryJumlahSurat)*100;
+					}
 				}
 		}
 
