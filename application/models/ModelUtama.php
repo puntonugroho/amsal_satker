@@ -63,6 +63,21 @@ class ModelUtama extends CI_Model {
 		}
 	}
 
+	public function get_seluruh_surat_disposisi_2($group_id,$group_name){
+		try {
+			return $this->db->query('SELECT * FROM v_suratmasuk WHERE tujuan_disposisi_dari_jabatan="' .$group_name. '" OR tujuan_disposisi_jabatan_id=' .$group_id. '');
+		} catch (Exception $e) {
+			return 0;
+		}
+	}
+
+	public function get_seluruh_surat_disposisi_sudah_dilaksanakan($group_id,$group_name){
+		try {
+			return $this->db->query('SELECT * FROM v_suratmasuk WHERE (tujuan_disposisi_dari_jabatan="' .$group_name. '" OR tujuan_disposisi_jabatan_id='.$group_id.') AND status_pelaksanaan_id<>20');
+		} catch (Exception $e) {
+			return 0;
+		}
+	}
 
 	public function get_seleksi2($nama_tabel,$kolom_seleksi1,$seleksi1,$kolom_seleksi2,$seleksi2){
 		try {

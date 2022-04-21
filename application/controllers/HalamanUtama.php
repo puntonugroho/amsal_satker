@@ -63,17 +63,28 @@ class HalamanUtama extends CI_Controller
 	{
 		$userid = $this->session->userdata('userid');
 		$queryPegawai = $this->model->get_seleksi('v_users', 'userid', $userid);
-		$pegawai_id = $queryPegawai->row()->pegawai_id;
+		// die(var_dump($queryPegawai->result()));
+		$pegawai_id = $queryPegawai->row()->userid;
 
 		error_reporting(0);
 		$queryRegister = $this->model->get_seleksi2('v_suratmasuk', 'tujuan_disposisi_id', $pegawai_id, 'status_pelaksanaan_id<>', '20')->num_rows();
+		//$queryRegister2 = $this->model->get_seleksi('v_suratmasuk', 'tujuan_id', $pegawai_id)->num_rows();
+		$queryRegister2 = $this->model->get_seleksi_pertama($pegawai_id)->num_rows();
+		$queryJumlahSurat = $this->model->get_seluruh_surat_disposisi_2($queryPegawai->row()->group_id,$queryPegawai->row()->group_name)->num_rows();
+		// die(var_dump($queryJumlahSurat));
 
-		$seluruh_surat_masuk = $this->model->get_seleksi('v_suratmasuk','tujuan_disposisi_id',$pegawai_id)->num_rows();
-
-		if($seluruh_surat_masuk==0){
+		$seluruh_surat_masuk = $this->model->get_seleksi('v_suratmasuk','tujuan_id',$pegawai_id)->num_rows();
+		if($seluruh_surat_masuk==0 && $queryRegister2==0 && $queryJumlahSurat==0){
 			$percentage = 100;
 		} else {
-			$percentage = ($queryRegister/$seluruh_surat_masuk)*100;
+				if($pegawai_id == 2){
+					$percentage = ($queryRegister2/$seluruh_surat_masuk)*100;
+				} else {
+					//$query_pelaksanaan = $this->model->get_seleksi('v_suratmasuk','tujuan_disposisi_id', $pegawai_id)->num_rows();
+					// $queryJumlahSurat = $this->model->get_seluruh_surat_disposisi_2($queryPegawai->row()->group_id,$queryPegawai->row()->group_name)->num_rows();
+					$queryDilaksanakan = $this->model->get_seluruh_surat_disposisi_sudah_dilaksanakan($queryPegawai->row()->group_id,$queryPegawai->row()->group_name)->num_rows();
+					$percentage = ($queryDilaksanakan/$queryJumlahSurat)*100;
+				}
 		}
 
 		echo json_encode(array('persentase' => $percentage));

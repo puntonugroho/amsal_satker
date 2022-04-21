@@ -39,7 +39,7 @@
 			url: '<?php echo base_url() ?>dashboard_persentase_disposisi',
 			success: function(response){
 				var json = jQuery.parseJSON(response);
-				$('#nilai_disposisi').text(json.persentase+" %");
+				$('#nilai_disposisi').text(json.persentase.toFixed(2) +" %");
 				$('#progress_disposisi').width(json.persentase+"%");
 			},
 		});
@@ -47,7 +47,7 @@
 			url: '<?php echo base_url() ?>dashboard_persentase_pengiriman',
 			success: function(response){
 				var json = jQuery.parseJSON(response);
-				$('#nilai_pengiriman').text(json.persentase+" %");
+				$('#nilai_pengiriman').text(json.persentase.toFixed(2) +" %");
 				$('#progress_pengiriman').width(json.persentase+"%");
 			},
 		});
